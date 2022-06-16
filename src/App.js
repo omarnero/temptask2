@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import About from "./pages/About";
-import Post from "./pages/Post";
 import Login from "./pages/Login";
 import Signin from "./pages/Signin";
 import { FeedbackProvider } from "./components/context/FeedbackContext";
@@ -19,8 +18,9 @@ const App = () => {
           <Header text="Todo List" />
           <div className="container">
             <Routes>
+              <Route path="/" element={<Login />} />
               <Route
-                path="/"
+                path="/todos"
                 exact
                 element={
                   <>
@@ -31,10 +31,8 @@ const App = () => {
                   </>
                 }
               ></Route>
-              <Route path="/login" element={<Login />} />
               <Route path="/sign-in" element={<Signin />} />
               <Route path="/about" element={<About />} />
-              <Route path="/post/:id" element={<Post />} />
             </Routes>
           </div>
         </Router>

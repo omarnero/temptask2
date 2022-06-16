@@ -55,7 +55,7 @@ function Signin() {
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       localStorage.setItem("id", id);
       setEmail(email);
-      navigate("/");
+      navigate("/todos");
     } catch (error) {
       toast.error("error in enter data");
     }

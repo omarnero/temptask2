@@ -33,7 +33,7 @@ function Login() {
       if (userCredential.user) {
         setEmail(email);
         localStorage.setItem("login", "1");
-        navigate("/");
+        navigate("/todos");
       }
     } catch (error) {
       toast.error(`mail is incorrect or password`);
