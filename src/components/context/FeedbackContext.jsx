@@ -1,99 +1,42 @@
 import { createContext, useState, useEffect } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db } from "../../firebase.config";
-import FeedbackData from "../../data/FeedbackData";
 
 const Context = createContext();
 export const FeedbackProvider = ({ children }) => {
   const [feedback, setFeedback] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [comp, setComp] = useState();
+  const [comp, setComp] = useState(true);
   const [login, setLogin] = useState(false);
   const [users, setUsers] = useState([]);
-  const [Email, setEmail] = useState();
-  const [loginId, setLoginId] = useState(false);
-  const [signin, setSignin] = useState(false);
-  const [id, setId] = useState();
-  const [lastFetchedListing, setLastFetchedListing] = useState(null);
-  // useEffect(() => {
-  //   logoinfun();
-  //   fetchFeedback();
-  // });
+  const [user, setUser] = useState();
+  const [Email, setEmail] = useState("");
 
+  const [id, setId] = useState(1);
   useEffect(() => {
-    const fetchListings = async () => {
-      console.log("get users");
+    console.log("login fetch");
+    const getusers = async () => {
       try {
-        // Get reference
-        const listingsRef = collection(db, "users");
+        const res = await fetch(`https://reqres.in/api/users`);
+        const resdata = await res.json();
 
-        // Create a query
-        const q = query(listingsRef, orderBy("timestamp", "desc"));
-
-        // Execute query
-        const querySnap = await getDocs(q);
-
-        const lastVisible = querySnap.docs[querySnap.docs.length - 1];
-        setLastFetchedListing(lastVisible);
-
-        const listings = [];
-
-        querySnap.forEach((doc) => {
-          return listings.push({
-            id: doc.id,
-            data: doc.data(),
-          });
+        // const { data } = resdata;
+        setUsers(resdata.data);
+        let userid = users.filter((user) => {
+          return user.email === Email;
         });
-
-        setUsers(listings);
-      } catch (error) {
-        console.log("error to get data");
+        if (userid.length !== 0) {
+          localStorage.setItem("id", userid[0].id);
+        }
+        let lid = localStorage.getItem("id");
+        setId(Number(lid));
+        fetchFeedback();
+      } catch (e) {
+        console.log(e);
       }
     };
-
-    fetchListings();
-  }, []);
-
-  useEffect(() => {
-    console.log("filter user ");
-    let user = users.filter((user) => {
-      return user.data.email === Email;
-    });
-    if (user.length === 0) {
-      return;
-    }
-    let idd = user[0].data.id;
-    localStorage.setItem("loginid", idd);
-    let LoginId = localStorage.getItem("loginid");
-    setId(Number(LoginId));
-    console.log(id);
-    fetchFeedback();
-  }, [Email]);
-  useEffect(() => {
-    console.log("sign in effect ");
-    fetchFeedback();
-    let idd = localStorage.getItem("id");
-    let log = localStorage.getItem("login");
-    // if (log === "1") {
-    //   return;
-    // }
-    setId(Number(idd));
-    setUsers(users);
-  }, []);
-  useEffect(() => {
-    setComp(comp);
-  }, [comp]);
+    getusers();
+  }, [Email, id]);
   const [feedbackEdit, setFeedbackEdit] = useState();
   const [change, setChange] = useState(false);
-  const del = (id) => {
-    // await fetch(`http://localhost:5000/feedback/${id}`, { method: "DELETE" });
-    let index = feedback.findIndex((item) => {
-      return item.id === id;
-    });
-    let dataC = feedback.slice();
-    dataC.splice(index, 1);
-    setFeedback(dataC);
-  };
   const fetchFeedback = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
     const data = await response.json();
@@ -103,16 +46,17 @@ export const FeedbackProvider = ({ children }) => {
     setFeedback(todos);
     setIsLoading(false);
   };
-
+  //  commint the post method because cause error in id get fixed id for every new element
   const add = async (item) => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    });
-    const data = await response.json();
-    console.log(data);
-    setFeedback([data, ...feedback]);
+    // const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(item),
+    // });
+    // const data = await response.json();
+    console.log(item);
+    setUser(item);
+    setFeedback([item, ...feedback]);
   };
 
   const edit = (id) => {
@@ -131,7 +75,8 @@ export const FeedbackProvider = ({ children }) => {
         body: JSON.stringify(item),
       }
     );
-    const data = response.json();
+    const data = await response.json();
+    console.log(data);
     const index = feedback.findIndex((ele) => {
       return ele.id === data.id;
     });
@@ -145,7 +90,6 @@ export const FeedbackProvider = ({ children }) => {
     <Context.Provider
       value={{
         feedback,
-        del,
         add,
         edit,
         isLoading,

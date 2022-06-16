@@ -5,6 +5,7 @@ import Button from "./shared/Button";
 import RatingSelect from "./RatingSelect";
 import { useContext } from "react";
 import Context from "./context/FeedbackContext";
+import { v4 as uuidv4 } from "uuid";
 const FeedbackForm = (props) => {
   const {
     add,
@@ -18,13 +19,13 @@ const FeedbackForm = (props) => {
   const [text, setText] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("");
-  const [id, setId] = useState(0);
+  const [id, setId] = useState();
   useEffect(() => {
     if (change === true) {
       const [feedback] = feedbackEdit;
-      const { id, text, comp } = feedback;
-      setText(text);
-      setComp(comp);
+      const { id, title, completed } = feedback;
+      setText(title);
+      setComp(completed);
       setId(id);
     }
   }, [feedbackEdit, change]);
@@ -33,7 +34,10 @@ const FeedbackForm = (props) => {
     if (text.trim().length === "") {
       setDisabled(true);
       setMessage(null);
-    } else if (text.trim().length !== "" && text.trim().length < 10) {
+    } else if (
+      text.trim().length !== "" &&
+      text.trim().length < 10 
+    ) {
       setDisabled(true);
       setMessage("You must have at least ten chars");
     } else {
@@ -46,15 +50,16 @@ const FeedbackForm = (props) => {
     e.preventDefault();
     if (change === true && text.trim().length !== "") {
       feedback = {
+        userId,
         id,
-        text,
-        comp,
+        title: text,
+        completed: comp,
       };
       update(id, feedback);
     } else if (text.trim().length !== "") {
       feedback = {
         userId,
-        id: Math.random() * 1000,
+        id: Math.ceil(Math.random() * 200 + 100),
         title: text,
         completed: comp,
       };

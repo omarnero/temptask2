@@ -143,8 +143,8 @@ input:focus {
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.221) 0px 3px 8px;
   transition: all 0.2s ease-out;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  // margin-top: 3px;
+  // margin-bottom: 3px;
   text-transform: capitalize;
 }
 .true-false :hover {
@@ -246,4 +246,22 @@ input:focus {
   .input-group input {
     width: 80%;
   }
+  .true-false input {
+    font-size: 20px;
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+}
+
+.login-form {
+  // position: absolute;
+  // display: block;
+  // top: 40%;
+  // left: 50%;
+  // transform: translate(-50%, 50%);
+  // max-width: 500px;
+}
+.link p {
+  font-size: 26px;
+  text-transform: capitalize;
 }

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import Context from "../components/context/FeedbackContext";
 function Login() {
-  const { setEmail, setLogin } = useContext(Context);
+  const { setEmail } = useContext(Context);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -40,7 +40,8 @@ function Login() {
     }
   };
   return (
-    <form onSubmit={sumbitHandler}>
+    <form onSubmit={sumbitHandler} className="login-form">
+      <h2 className="text-center text-light"> Login </h2>
       <div className="form-group py-1">
         <label htmlFor="email" className="h4">
           Email address
@@ -67,13 +68,13 @@ function Login() {
         />
       </div>
       <button
-        className="btn-success btn-lg my-2 float-right text-center"
+        className="btn-info btn-lg my-2 float-right text-center"
         type="submit"
       >
         Login
       </button>
-      <Link to="/sign-in">
-        <p>to sign in</p>
+      <Link to="/sign-in" className="link">
+        <p>to Register</p>
       </Link>
     </form>
   );

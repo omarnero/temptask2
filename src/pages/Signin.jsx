@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import Context from "../components/context/FeedbackContext";
 function Signin() {
-  const {} = useContext(Context);
+  const { setEmail } = useContext(Context);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -54,6 +54,7 @@ function Signin() {
       formDataCopy.timestamp = serverTimestamp();
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       localStorage.setItem("id", id);
+      setEmail(email);
       navigate("/");
     } catch (error) {
       toast.error("error in enter data");
@@ -61,6 +62,7 @@ function Signin() {
   };
   return (
     <form onSubmit={sumbitHandler}>
+      <h2 className="text-center text-light"> Register </h2>
       <div className="form-group py-1">
         <label htmlFor="name" className="h4">
           Name
@@ -100,12 +102,12 @@ function Signin() {
         />
       </div>
       <button
-        className="btn-success btn-lg my-2 float-right text-center"
+        className="btn-info btn-lg my-2 float-right text-center"
         type="submit"
       >
         Signin
       </button>
-      <Link to="/login">
+      <Link to="/login" className="link">
         <p>to Login</p>
       </Link>
     </form>

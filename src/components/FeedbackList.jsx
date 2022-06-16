@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Context from "./context/FeedbackContext";
 import Spinner from "./shared/Spinner";
 function FeedbackList() {
-  let { feedback: data, del, isLoading } = useContext(Context);
+  let { feedback: data, isLoading } = useContext(Context);
   if (data.length === 0 && isLoading) {
     return <Spinner />;
   } else if (data.length === 0) {
@@ -26,7 +26,6 @@ function FeedbackList() {
                     id={data.id}
                     rate={data.completed}
                     text={data.title}
-                    closeHandler={del}
                   />
                 </motion.dev>
               </div>

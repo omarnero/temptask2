@@ -13,7 +13,12 @@ function RatingSelect() {
     <>
       <ul className="rating">
         <div className="true-false">
-          <input type="button" value="true" onClick={clickHandler} />
+          <input
+            type="button"
+            value="true"
+            onClick={clickHandler}
+            className="mr-4"
+          />
         </div>
         <div className="true-false">
           <input type="button" value="false" onClick={clickHandler} />
@@ -28,10 +33,8 @@ function RatingSelect() {
           {comp}
         </p>
       )} */}
-      {comp && <p className="h4 py-1 text-center text-info"> Completed</p>}
-      {!comp && (
-        <p className="h4 py-1 text-center text-warning"> UnCompleted</p>
-      )}
+      {comp && <p className="h4  text-center text-info"> Completed</p>}
+      {!comp && <p className="h4  text-center text-warning"> UnCompleted</p>}
     </>
   );
 }

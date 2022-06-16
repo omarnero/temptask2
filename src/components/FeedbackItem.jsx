@@ -10,9 +10,6 @@ function FeedbackItem(props) {
       <div className="num-display">
         {props.rate === true ? "completed" : "uncompleted"}
       </div>
-      <button onClick={() => props.closeHandler(props.id)} className="close">
-        <FaTimes color="purple" />
-      </button>
       <button
         className="edit"
         onClick={() => {
