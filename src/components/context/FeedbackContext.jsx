@@ -13,13 +13,10 @@ export const FeedbackProvider = ({ children }) => {
   const [change, setChange] = useState(false);
   const [id, setId] = useState(11);
   useEffect(() => {
-    // console.log("login fetch");
     const getusers = async () => {
       try {
         const res = await fetch(`https://reqres.in/api/users`);
         const resdata = await res.json();
-
-        // const { data } = resdata;
         setUsers(resdata.data);
         let userid = users.filter((user) => {
           return user.email === Email;
@@ -80,10 +77,7 @@ export const FeedbackProvider = ({ children }) => {
       setFeedback(nfeed);
     }
   };
-  // useEffect(() => {
-  //   edit();
-  //   update();
-  // }, [change, feedbackEdit]);
+  
 
   const fetchFeedback = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
@@ -125,6 +119,7 @@ export const FeedbackProvider = ({ children }) => {
         id,
         setLogin,
         login,
+        setFeedback
       }}
     >
       {children}

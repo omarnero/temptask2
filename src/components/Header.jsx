@@ -5,12 +5,13 @@ import Context from "./context/FeedbackContext";
 import classes from "./Header.module.css";
 import { getAuth } from "firebase/auth";
 function Header(props) {
-  const { login, setLogin } = useContext(Context);
+  const { login, setLogin, setFeedback } = useContext(Context);
   const auth = getAuth();
   const navigate = useNavigate();
   const logoutHandler = () => {
     setLogin(false);
     auth.signOut();
+    setFeedback([]);
     navigate("/");
   };
   return (
