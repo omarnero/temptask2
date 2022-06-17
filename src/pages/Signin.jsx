@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import Context from "../components/context/FeedbackContext";
 function Signin() {
-  const { setEmail } = useContext(Context);
+  const { setEmail, setLogin } = useContext(Context);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -55,6 +55,7 @@ function Signin() {
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       localStorage.setItem("id", id);
       setEmail(email);
+      setLogin(true);
       navigate("/todos");
     } catch (error) {
       toast.error("error in enter data");

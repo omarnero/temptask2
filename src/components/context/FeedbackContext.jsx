@@ -12,7 +12,7 @@ export const FeedbackProvider = ({ children }) => {
 
   const [id, setId] = useState(1);
   useEffect(() => {
-    console.log("login fetch");
+    // console.log("login fetch");
     const getusers = async () => {
       try {
         const res = await fetch(`https://reqres.in/api/users`);
@@ -114,6 +114,7 @@ export const FeedbackProvider = ({ children }) => {
         setEmail,
         id,
         setLogin,
+        login,
       }}
     >
       {children}

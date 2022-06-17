@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import Context from "../components/context/FeedbackContext";
 function Login() {
-  const { setEmail } = useContext(Context);
+  const { setEmail, setLogin } = useContext(Context);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -32,7 +32,7 @@ function Login() {
 
       if (userCredential.user) {
         setEmail(email);
-        localStorage.setItem("login", "1");
+        setLogin(true)
         navigate("/todos");
       }
     } catch (error) {
