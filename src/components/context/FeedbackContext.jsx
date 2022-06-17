@@ -9,11 +9,14 @@ export const FeedbackProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState();
   const [Email, setEmail] = useState("");
-
-  const [id, setId] = useState(1);
+  const [feedbackEdit, setFeedbackEdit] = useState();
+  const [change, setChange] = useState(false);
+  const [id, setId] = useState(11);
   useEffect(() => {
     // console.log("login fetch");
     const getusers = async () => {
+      let lemail = localStorage.getItem("email");
+      setEmail(lemail);
       try {
         const res = await fetch(`https://reqres.in/api/users`);
         const resdata = await res.json();
@@ -35,8 +38,52 @@ export const FeedbackProvider = ({ children }) => {
     };
     getusers();
   }, [Email, id]);
-  const [feedbackEdit, setFeedbackEdit] = useState();
-  const [change, setChange] = useState(false);
+  const edit = (id) => {
+    const elem = feedback.filter((ele) => {
+      return ele.id === id;
+    });
+    setFeedbackEdit(elem);
+    setChange(true);
+  };
+  const update = async (id, item) => {
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/todos/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(item),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data) {
+        const index = feedback.findIndex((ele) => {
+          return ele.id === data.id;
+        });
+        let nfeed = feedback.slice();
+        nfeed.splice(index, 1);
+        nfeed.splice(index, 0, data);
+        setChange(false);
+        setFeedback(nfeed);
+      }
+    } catch {
+      let data = item;
+      const index = feedback.findIndex((ele) => {
+        return ele.id === data.id;
+      });
+      let nfeed = feedback.slice();
+      nfeed.splice(index, 1);
+      nfeed.splice(index, 0, data);
+      setChange(false);
+      setFeedback(nfeed);
+    }
+  };
+  // useEffect(() => {
+  //   edit();
+  //   update();
+  // }, [change, feedbackEdit]);
+
   const fetchFeedback = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
     const data = await response.json();
@@ -57,44 +104,6 @@ export const FeedbackProvider = ({ children }) => {
     console.log(item);
     setUser(item);
     setFeedback([item, ...feedback]);
-  };
-
-  const edit = (id) => {
-    const elem = feedback.filter((ele) => {
-      return ele.id === id;
-    });
-    setFeedbackEdit(elem);
-    setChange(true);
-  };
-  const update = async (id, item) => {
-    console.log(id);
-    console.log(item);
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      }
-    );
-    const data = await response.json();
-    if (data) {
-      const index = feedback.findIndex((ele) => {
-        return ele.id === data.id;
-      });
-      let nfeed = feedback.slice();
-      nfeed.splice(index, 1);
-      nfeed.splice(index, 0, data);
-      setFeedback(nfeed);
-    } else {
-      const index = feedback.findIndex((ele) => {
-        return ele.id === id;
-      });
-      let nfeed = feedback.slice();
-      nfeed.splice(index, 1);
-      nfeed.splice(index, 0, data);
-      setFeedback(nfeed);
-    }
   };
 
   return (

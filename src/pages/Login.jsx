@@ -31,8 +31,9 @@ function Login() {
       );
 
       if (userCredential.user) {
+        localStorage.setItem("email", email);
         setEmail(email);
-        setLogin(true)
+        setLogin(true);
         navigate("/todos");
       }
     } catch (error) {
