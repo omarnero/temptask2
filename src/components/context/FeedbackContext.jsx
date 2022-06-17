@@ -15,8 +15,6 @@ export const FeedbackProvider = ({ children }) => {
   useEffect(() => {
     // console.log("login fetch");
     const getusers = async () => {
-      let lemail = localStorage.getItem("email");
-      setEmail(lemail);
       try {
         const res = await fetch(`https://reqres.in/api/users`);
         const resdata = await res.json();
@@ -26,11 +24,14 @@ export const FeedbackProvider = ({ children }) => {
         let userid = users.filter((user) => {
           return user.email === Email;
         });
-        if (userid.length !== 0) {
-          localStorage.setItem("id", userid[0].id);
+
+        if (userid.length === 0) {
+          setId(11);
         }
-        let lid = localStorage.getItem("id");
-        setId(Number(lid));
+        if (userid.length !== 0) {
+          let rid = userid[0].id;
+          setId(rid);
+        }
         fetchFeedback();
       } catch (e) {
         console.log(e);
