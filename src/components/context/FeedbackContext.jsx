@@ -67,6 +67,8 @@ export const FeedbackProvider = ({ children }) => {
     setChange(true);
   };
   const update = async (id, item) => {
+    console.log(id);
+    console.log(item);
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/todos/${id}`,
       {
@@ -76,14 +78,23 @@ export const FeedbackProvider = ({ children }) => {
       }
     );
     const data = await response.json();
-    console.log(data);
-    const index = feedback.findIndex((ele) => {
-      return ele.id === data.id;
-    });
-    let nfeed = feedback.slice();
-    nfeed.splice(index, 1);
-    nfeed.splice(index, 0, data);
-    setFeedback(nfeed);
+    if (data) {
+      const index = feedback.findIndex((ele) => {
+        return ele.id === data.id;
+      });
+      let nfeed = feedback.slice();
+      nfeed.splice(index, 1);
+      nfeed.splice(index, 0, data);
+      setFeedback(nfeed);
+    } else {
+      const index = feedback.findIndex((ele) => {
+        return ele.id === id;
+      });
+      let nfeed = feedback.slice();
+      nfeed.splice(index, 1);
+      nfeed.splice(index, 0, data);
+      setFeedback(nfeed);
+    }
   };
 
   return (

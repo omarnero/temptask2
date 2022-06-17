@@ -34,10 +34,7 @@ const FeedbackForm = (props) => {
     if (text.trim().length === "") {
       setDisabled(true);
       setMessage(null);
-    } else if (
-      text.trim().length !== "" &&
-      text.trim().length < 10 
-    ) {
+    } else if (text.trim().length !== "" && text.trim().length < 10) {
       setDisabled(true);
       setMessage("You must have at least ten chars");
     } else {
